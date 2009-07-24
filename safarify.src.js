@@ -49,11 +49,11 @@
     '530.19':   '4.0.2'
   };
   
-  var stylesMap = {
-    '1': 'background-color: #f66',
-    '2': 'background-color: #f90',
-    '3': 'background-color: #ff6',
-    '4': 'background-color: #6f6'
+  var colorsMap = {
+    '1': '#f66', // red
+    '2': '#f90', // orange
+    '3': '#ff6', // yellow
+    '4': '#6f6' // green
   };
   
   function trim(str) {
@@ -76,12 +76,12 @@
   }
   
   function createMarkup(buildNumber) {
-    return '(<span style="' + getStyle(buildNumber) + '">' + buildNumber + '</span>)';
+    return '(<span style="background-color: ' + getColor(buildNumber) + '">' + buildNumber + '</span>)';
   }
   
-  function getStyle(buildNumber) {
+  function getColor(buildNumber) {
     var majorVersion = buildNumber.match(/^~?(\d+)\./)[1];
-    return stylesMap[majorVersion];
+    return colorsMap[majorVersion];
   }
   
   function tryNormalizeBuildNumber(buildNumber) {
