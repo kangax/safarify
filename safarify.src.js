@@ -1,13 +1,16 @@
 (function(){
   
-  var map = {
+  var versionsMap = {
     
+    '312.5':    '1.3.2',
     '312.6':    '1.3.2',
     
     '412':      '2.0',
     '413':      '~2.0', // unofficial
     '416.11':   '2.0.2',
+    '416.12':   '~2.0.2', // unofficial
     '417.8':    '2.0.3',
+    '417.9.2':  '~2.0.3', // unofficial
     '419.3':    '2.0.4',
     
     '522.11':   '3.0',
@@ -33,15 +36,24 @@
     '528.1':    '~4.0 beta', // unofficial
     '528.5':    '4.0 beta', // unofficial
     '528.7':    '4.0 beta', // unofficial
+    '528.9':    '~4.0 beta', // unofficial
     '528.16':   '4.0 beta',
     '528.17':   '4.0 beta',
     
     '530.1':    '~4.0', // unofficial
     '530.9':    '~4.0', // unofficial
+    '530.11':   '~4.0', // unofficial
     '530.15':   '~4.0', // unofficial
     '530.17':   '4.0',
     '530.18':   '4.0.1',
     '530.19':   '4.0.2'
+  };
+  
+  var stylesMap = {
+    '1': 'background-color: #f66',
+    '2': 'background-color: #f90',
+    '3': 'background-color: #ff6',
+    '4': 'background-color: #6f6'
   };
   
   function trim(str) {
@@ -59,8 +71,17 @@
   
   function createVersionEl(buildNumber) {
     var el = document.createElement('span');
-    el.innerHTML = '(' + buildNumber + ')';
+    el.innerHTML = createMarkup(buildNumber);
     return el;
+  }
+  
+  function createMarkup(buildNumber) {
+    return '(<span style="' + getStyle(buildNumber) + '">' + buildNumber + '</span>)';
+  }
+  
+  function getStyle(buildNumber) {
+    var majorVersion = buildNumber.match(/^~?(\d+)\./)[1];
+    return stylesMap[majorVersion];
   }
   
   function tryNormalizeBuildNumber(buildNumber) {
@@ -72,7 +93,7 @@
   }
   
   function isValid(buildNumber) {
-    return !!(buildNumber && (buildNumber in map));
+    return !!(buildNumber && (buildNumber in versionsMap));
   }
   
   var links = document.getElementsByTagName('a'), 
@@ -85,7 +106,7 @@
       buildNumber = tryNormalizeBuildNumber(buildNumber);
     }
     if (isValid(buildNumber)) {
-      insertAfter(link, createVersionEl(map[buildNumber]));
+      insertAfter(link, createVersionEl(versionsMap[buildNumber]));
     }
   }
 })();
